@@ -1,0 +1,109 @@
+import 'package:flutter/material.dart';
+import 'package:first/buttons.dart';
+
+void main(){
+  runApp(MyApp());
+}
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  final List<String> buttons =
+  [
+    'C', 'DEL', '%', '/',
+    '9', '8', '7', '*',
+    '6', '5', '4', '-',
+    '3', '2', '1', '+',
+    'ANS', '0', '.', '=',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      body: Column(
+        children: <Widget> [
+          Expanded(
+            child: Container(),
+          ),
+          Expanded(
+            flex: 2,
+            child: GridView.builder(
+                itemCount: buttons.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4),
+                itemBuilder: (BuildContext context, int index){
+                  if(index ==0){
+                    return MyButton(
+                      buttonText: buttons[index],
+                      color: Colors.green,
+                      textColor: Colors.white,
+                    );
+                  }else if(index ==1){
+                    return MyButton(
+                      buttonText: buttons[index],
+                      color: Colors.red,
+                      textColor: Colors.white,
+                    );
+                  }else{
+                    return MyButton(
+                      buttonText: buttons[index],
+                      color: isOperator(buttons[index])? Colors.blueGrey : Colors.blueGrey[50],
+                      textColor: isOperator(buttons[index])? Colors.white : Colors.blueGrey,
+                    );
+                  }
+                }
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  bool isOperator(String x){
+    if(x == '%' || x == '/' || x == '*' || x == '-' || x == '+' || x == '='){
+      return true;
+    }
+    return false;
+  }
+}
+
+this is new file of buttons named
+import 'package:flutter/material.dart';
+class MyButton extends StatelessWidget {
+
+  final color;
+  final textColor;
+  final String buttonText;
+
+  MyButton({this.color, this.textColor, required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          color: color,
+          child: Center(
+            child: Text(buttonText, style: TextStyle(color: textColor),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
